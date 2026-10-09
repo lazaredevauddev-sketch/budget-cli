@@ -1,0 +1,8 @@
+# Données personnelles : on ne les met pas sur GitHub
+depenses.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
