@@ -9,6 +9,7 @@ Les dépenses sont enregistrées localement dans un fichier `depenses.json`.
 - Lister les dépenses, avec filtre par mois ou par catégorie
 - Afficher les totaux par catégorie avec un mini graphique en barres
 - Supprimer une dépense
+- Exporter les dépenses en CSV
 - Générer un camembert des dépenses (optionnel, avec `matplotlib`)
 
 ## Prérequis
@@ -39,6 +40,10 @@ python budget.py stats --mois 2026-10
 # Supprimer la dépense n°3
 python budget.py supprimer 3
 
+# Exporter en CSV
+python budget.py exporter
+python budget.py exporter octobre.csv --mois 2026-10
+
 # Camembert
 python budget.py graphique
 ```
@@ -58,6 +63,6 @@ Nombre de dépenses : 3
 ## Idées d'amélioration
 
 - [ ] Définir un budget mensuel et afficher une alerte en cas de dépassement
-- [ ] Exporter les dépenses en CSV
+- [x] Exporter les dépenses en CSV
 - [ ] Ajouter des revenus en plus des dépenses
 - [ ] Écrire des tests unitaires
