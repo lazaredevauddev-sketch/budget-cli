@@ -8,9 +8,11 @@ Exemples :
     python budget.py stats
     python budget.py supprimer 3
     python budget.py graphique
+    python budget.py exporter depenses.csv
 """
 
 import argparse
+import csv
 import json
 import os
 import sys
@@ -141,6 +143,18 @@ def cmd_graphique(args):
     plt.show()
 
 
+def cmd_exporter(args):
+    depenses = filtrer(charger(), args.mois, args.categorie)
+    if not depenses:
+        print("Aucune dépense à exporter.")
+        return
+    with open(args.fichier, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["id", "date", "montant", "categorie", "description"])
+        writer.writeheader()
+        writer.writerows(sorted(depenses, key=lambda d: d["date"]))
+    print(f"{len(depenses)} dépense(s) exportée(s) dans {args.fichier}")
+
+
 # ---------- Interface ----------
 
 def main():
@@ -170,6 +184,12 @@ def main():
     p = sous.add_parser("graphique", help="Camembert des dépenses (nécessite matplotlib)")
     p.add_argument("--mois", help="Filtrer par mois, format AAAA-MM")
     p.set_defaults(func=cmd_graphique)
+
+    p = sous.add_parser("exporter", help="Exporter les dépenses en CSV")
+    p.add_argument("fichier", nargs="?", default="depenses.csv", help="Nom du fichier CSV")
+    p.add_argument("--mois", help="Filtrer par mois, format AAAA-MM")
+    p.add_argument("--categorie", help="Filtrer par catégorie")
+    p.set_defaults(func=cmd_exporter)
 
     args = parser.parse_args()
     args.func(args)
